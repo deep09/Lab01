@@ -2,4 +2,7 @@
     <string name="app_name">AndroidLabs</string>
     <string name="hello_message">Hello World!</string>
     <string name="ButtonText">I\'m a Button</string>
+    <string name="edtLogin">Login</string>
+    <string name="edtPwd">Password</string>
+    <string name="swTxt">What does this do?</string>
 </resources>
