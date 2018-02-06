@@ -3,4 +3,12 @@
     <string name="app_name">AndroidLabs</string>
     <string name="hello_message">હેલ્લો વિશ્વ</string>
     <string name="ButtonText">હું એક બટન છું.</string>
+    <string name="edtLogin">લૉગિન</string>
+    <string name="edtPwd">પાસવર્ડ</string>
+    <string name="swTxt">આ શું કરે છે?</string>
+    <string name="btnLogin">ૉગિન</string>
+    <string name="swMessage">શું તમે પ્રવૃત્તિ બંધ કરવા માંગો છો?</string>
+    <string name="swTitle">માહિતી</string>
+    <string name="swPositiveButton">હા</string>
+    <string name="swNegativeButton">ના</string>
 </resources>

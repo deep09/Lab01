@@ -5,4 +5,9 @@
     <string name="edtLogin">Login</string>
     <string name="edtPwd">Password</string>
     <string name="swTxt">What does this do?</string>
+    <string name="btnLogin">Log In</string>
+    <string name="swMessage">Do you want to close the Activity?</string>
+    <string name="swTitle">Information</string>
+    <string name="swPositiveButton">Yes</string>
+    <string name="swNegativeButton">No</string>
 </resources>

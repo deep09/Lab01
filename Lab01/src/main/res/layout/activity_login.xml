@@ -7,7 +7,7 @@
     tools:context="com.example.dipen.androidlabs.LoginActivity">
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/edtEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="login name"
@@ -19,6 +19,13 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:text="@string/edtPwd" />
+
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btnLogin" />
 
     <ImageView
         android:layout_width="match_parent"
