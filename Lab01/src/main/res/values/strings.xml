@@ -10,4 +10,6 @@
     <string name="swTitle">Information</string>
     <string name="swPositiveButton">Yes</string>
     <string name="swNegativeButton">No</string>
+    <string name="startChatButton">Start Chat</string>
+    <string name="sendButton">Send</string>
 </resources>

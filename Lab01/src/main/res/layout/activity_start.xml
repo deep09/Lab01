@@ -17,10 +17,16 @@
 
     <Button
         android:id="@+id/btn_ImButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/ButtonText"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="42dp" />
+
+    <Button
+        android:id="@+id/btn_startChat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/startChatButton" />
 
 </LinearLayout>
