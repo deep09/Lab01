@@ -23,7 +23,7 @@
         android:layout_toLeftOf="@id/btn_send"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name" />
+        android:text="" />
 
     <Button
         android:id="@+id/btn_send"
@@ -33,7 +33,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="false"
         android:layout_below="@+id/lv_ChatView"
-        android:text="Button" />
+        android:text="@string/sendButton" />
 
 
 </RelativeLayout>

@@ -47,7 +47,7 @@ public class ListItemsActivity extends Activity {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             Intent resultIntent = new Intent();
-                            resultIntent.putExtra("Response","Here is my response");
+                            resultIntent.putExtra("Response",getString(R.string.toastString)+"");
                             setResult(Activity.RESULT_OK,resultIntent);
                             finish();
                         }

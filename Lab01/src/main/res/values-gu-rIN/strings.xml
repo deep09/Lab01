@@ -11,6 +11,7 @@
     <string name="swTitle">માહિતી</string>
     <string name="swPositiveButton">હા</string>
     <string name="swNegativeButton">ના</string>
+    <string name="toastString">અહીં મારો પ્રતિભાવ છે</string>
     <string name="startChatButton">ચેટ શરૂ કરો</string>
     <string name="sendButton">મોકલો</string>
 </resources>

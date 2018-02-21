@@ -4,15 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:background="@color/colorPrimary"
-    android:layout_margin="10dp"
     >
 
-
     <ImageView
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_margin="5dp"
+        android:layout_marginRight="55dp"
+        android:background="@drawable/avtar"
         android:src="@drawable/row_even" />
 
     <EditText
@@ -21,6 +21,10 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:ems="10"
+        android:background="@drawable/chat_background_circle_grey"
+        android:padding="8dp"
+        android:layout_margin="5dp"
+        android:textColor="#ffffff"
         android:inputType="textPersonName"
         android:text="Name" />
 </LinearLayout>
