@@ -1,15 +1,21 @@
 package com.example.dipen.androidlabs;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -20,6 +26,14 @@ public class ChatWindow extends Activity {
     private ListView lsChatView;
     private EditText edtChat;
     private ArrayList<String> lstMessages;
+    private ChatDatabaseHelper myHelper;
+    private SQLiteDatabase myDB;
+    private ContentValues cv;
+    private Cursor myCursor;
+    private SimpleCursorAdapter ca;
+    private String[] msg = {"Hello", "How are you?"};
+    private final static String ACTIVITY_NAME = "ChatWindow";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,17 +43,59 @@ public class ChatWindow extends Activity {
         lsChatView = findViewById(R.id.lv_ChatView);
         edtChat = findViewById(R.id.edt_Chat);
         lstMessages = new ArrayList<>();
+        cv = new ContentValues();
+
+        myHelper = new ChatDatabaseHelper(this);
+        myDB = myHelper.getWritableDatabase();
+
+        for(String str: msg)
+            cv.put(ChatDatabaseHelper.KEY_MESSAGE,str);
+
+        //myDB.insert(ChatDatabaseHelper.TABLE_NAME,"Null",cv);
 
         btnSend.setOnClickListener( view -> {
             String messageFromEdt = edtChat.getText().toString();
             lstMessages.add(messageFromEdt);
             edtChat.setText("");
+            cv.put(ChatDatabaseHelper.KEY_MESSAGE,messageFromEdt);
+            myDB.insert(ChatDatabaseHelper.TABLE_NAME,"Null",cv);
+            Log.i("Data Inserted",messageFromEdt+" has been added to the database");
         });
 
-        ChatAdapter messageAdapter = new ChatAdapter(this);
-        lsChatView.setAdapter(messageAdapter);
+        myCursor = myDB.rawQuery("SELECT * FROM "+ChatDatabaseHelper.TABLE_NAME+" ;",null);
+        Log.i(ACTIVITY_NAME,"Cursor's column count: "+ myCursor.getColumnCount()+" Total Row Count: "+myCursor.getCount());
+        myCursor.moveToFirst();
+        for(int i=0;i<myCursor.getCount();i++){
+            String msgFromDb = myCursor.getString(myCursor.getColumnIndex(ChatDatabaseHelper.KEY_MESSAGE));
+            lstMessages.add(msgFromDb);
+            Log.i(ACTIVITY_NAME, "SQL MESSAGE: "+ myCursor.getString(myCursor.getColumnIndex(ChatDatabaseHelper.KEY_MESSAGE)));
+            myCursor.moveToNext();
+        }
 
-        messageAdapter.notifyDataSetChanged();
+
+        int id = 0;
+        for(int i=0;i<lstMessages.size();i++) {
+            if ((i % 2) == 0)
+                id = R.layout.chat_row_incoming;
+            else
+                id = R.layout.chat_row_outgoing;
+        }
+
+        try {
+            ca = new SimpleCursorAdapter(this, id, myCursor, new String[]{ChatDatabaseHelper.KEY_MESSAGE}, new int[]{R.id.edt_Chat}, 0);
+
+            //ChatAdapter messageAdapter = new ChatAdapter(this);
+            lsChatView.setAdapter(ca);
+            ca.notifyDataSetChanged();
+        } catch(Exception e){}
+
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        myDB.close();
 
     }
 
