@@ -62,6 +62,15 @@ public class ChatWindow extends Activity {
             Log.i("Data Inserted",messageFromEdt+" has been added to the database");
         });
 
+        ChatAdapter messageAdapter = new ChatAdapter(this);
+        lsChatView.setAdapter(messageAdapter);
+        messageAdapter.notifyDataSetChanged();
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         myCursor = myDB.rawQuery("SELECT * FROM "+ChatDatabaseHelper.TABLE_NAME+" ;",null);
         Log.i(ACTIVITY_NAME,"Cursor's column count: "+ myCursor.getColumnCount()+" Total Row Count: "+myCursor.getCount());
         myCursor.moveToFirst();
@@ -82,14 +91,10 @@ public class ChatWindow extends Activity {
         }
 
         try {
-            ca = new SimpleCursorAdapter(this, id, myCursor, new String[]{ChatDatabaseHelper.KEY_MESSAGE}, new int[]{R.id.edt_Chat}, 0);
-
-            //ChatAdapter messageAdapter = new ChatAdapter(this);
+            ca = new SimpleCursorAdapter(this, id, myCursor, new String[]{ChatDatabaseHelper.KEY_MESSAGE}, new int[]{R.id.message_text}, 0);
             lsChatView.setAdapter(ca);
             ca.notifyDataSetChanged();
         } catch(Exception e){}
-
-
     }
 
     @Override
@@ -101,9 +106,7 @@ public class ChatWindow extends Activity {
 
     private class ChatAdapter extends ArrayAdapter<String> {
 
-        public ChatAdapter(Context ctx){
-            super(ctx,0);
-        }
+        public ChatAdapter(Context ctx){super(ctx,0);}
 
         @Override
         public int getCount() {
