@@ -29,8 +29,6 @@ public class ChatWindow extends Activity {
     private SQLiteDatabase myDB;
     private ContentValues cv;
     private Cursor myCursor;
-    private SimpleCursorAdapter ca;
-    private String[] msg = {"Hello", "How are you?"};
     private final static String ACTIVITY_NAME = "ChatWindow";
 
     @Override
