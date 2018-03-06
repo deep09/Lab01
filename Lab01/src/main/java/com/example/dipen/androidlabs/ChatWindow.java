@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -48,11 +47,6 @@ public class ChatWindow extends Activity {
         myHelper = new ChatDatabaseHelper(this);
         myDB = myHelper.getWritableDatabase();
 
-        for(String str: msg)
-            cv.put(ChatDatabaseHelper.KEY_MESSAGE,str);
-
-        //myDB.insert(ChatDatabaseHelper.TABLE_NAME,"Null",cv);
-
         btnSend.setOnClickListener( view -> {
             String messageFromEdt = edtChat.getText().toString();
             lstMessages.add(messageFromEdt);
@@ -80,22 +74,7 @@ public class ChatWindow extends Activity {
             Log.i(ACTIVITY_NAME, "SQL MESSAGE: "+ myCursor.getString(myCursor.getColumnIndex(ChatDatabaseHelper.KEY_MESSAGE)));
             myCursor.moveToNext();
         }
-
-
-        int id = 0;
-        for(int i=0;i<lstMessages.size();i++) {
-            if ((i % 2) == 0)
-                id = R.layout.chat_row_incoming;
-            else
-                id = R.layout.chat_row_outgoing;
-        }
-
-        try {
-            ca = new SimpleCursorAdapter(this, id, myCursor, new String[]{ChatDatabaseHelper.KEY_MESSAGE}, new int[]{R.id.message_text}, 0);
-            lsChatView.setAdapter(ca);
-            ca.notifyDataSetChanged();
-        } catch(Exception e){}
-    }
+     }
 
     @Override
     protected void onDestroy() {
