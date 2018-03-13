@@ -13,4 +13,5 @@
     <string name="toastString">Here is my response</string>
     <string name="startChatButton">Start Chat</string>
     <string name="sendButton">Send</string>
+    <string name="btnWeatherForecast">Weather Forecast</string>
 </resources>
