@@ -4,4 +4,10 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorGrey">#9E9E9E</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="colorIndigo_1">#E8EAF6</color>
+    <color name="colorIndigo_2">#C5CAE9</color>
+    <color name="colorIndigo_3">#9FA8DA</color>
+    <color name="colorIndigo_4">#7986CB</color>
+    <color name="colorIndigo_5">#5C6BC0</color>
 </resources>
