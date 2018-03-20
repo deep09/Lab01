@@ -10,4 +10,9 @@
     <color name="colorIndigo_3">#9FA8DA</color>
     <color name="colorIndigo_4">#7986CB</color>
     <color name="colorIndigo_5">#5C6BC0</color>
+    <color name="colorBlack">#212121</color>
+    <color name="colorBlack_1">#424242</color>
+    <color name="colorBlack_2">#616161</color>
+    <color name="colorBlack_3">#757575</color>
+    <color name="colorBlack_4">#9E9E9E</color>
 </resources>
