@@ -14,4 +14,7 @@
     <string name="startChatButton">Start Chat</string>
     <string name="sendButton">Send</string>
     <string name="btnWeatherForecast">Weather Forecast</string>
+    <string name="fragDeleteBtn">Delete This Message</string>
+    <string name="fragTvMessageHint">Selected Message</string>
+    <string name="fragTvMessageId">Selected Id</string>
 </resources>

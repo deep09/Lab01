@@ -1,8 +1,13 @@
 package com.example.dipen.androidlabs;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -10,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,6 +35,8 @@ public class ChatWindow extends Activity {
     private SQLiteDatabase myDB;
     private ContentValues cv;
     private Cursor myCursor;
+    private Bundle transferThisInfo;
+    private boolean EXISTANCE;
     private final static String ACTIVITY_NAME = "ChatWindow";
 
     @Override
@@ -42,8 +50,37 @@ public class ChatWindow extends Activity {
         lstMessages = new ArrayList<>();
         cv = new ContentValues();
 
+        EXISTANCE = (findViewById(R.id.fr_layout) != null);
+
         myHelper = new ChatDatabaseHelper(this);
         myDB = myHelper.getWritableDatabase();
+
+        transferThisInfo = new Bundle();
+        lsChatView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                myCursor = myDB.rawQuery("SELECT * FROM "+ChatDatabaseHelper.TABLE_NAME+" WHERE "+ChatDatabaseHelper.KEY_ID+" = "+(int)id+" ;",null);
+                String msgFromDb = myCursor.getString(myCursor.getColumnIndex(ChatDatabaseHelper.KEY_MESSAGE));
+                int idFromDb = myCursor.getInt(myCursor.getColumnIndex(ChatDatabaseHelper.KEY_ID));
+                transferThisInfo.putString("Message",msgFromDb);
+                transferThisInfo.putInt("Id",idFromDb);
+
+                if(EXISTANCE){
+                    FragmentManager fm = getFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    FragmentClass obj  =  new FragmentClass();
+                    obj.setArguments( transferThisInfo );
+                    ft.addToBackStack("Any name, not used"); //only undo FT on back button
+                    ft.replace(  R.id.fr_layout , obj);
+                    ft.commit();
+                }else{
+                    Intent newScreen = new Intent(ChatWindow.this,MessageDetails.class);
+                    newScreen.putExtras(transferThisInfo);
+                    startActivityForResult(newScreen,100);
+                }
+                return true;
+            }
+        });
 
         btnSend.setOnClickListener( view -> {
             String messageFromEdt = edtChat.getText().toString();
@@ -58,6 +95,22 @@ public class ChatWindow extends Activity {
         lsChatView.setAdapter(messageAdapter);
         messageAdapter.notifyDataSetChanged();
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        String DELETE_SQL = "DELETE FROM "+ChatDatabaseHelper.TABLE_NAME+" WHERE "+ChatDatabaseHelper.KEY_ID+" = "+data.getIntExtra("DeleteThisID",0)+" ;";
+        if(resultCode == 101){
+            myDB.rawQuery(DELETE_SQL,null);
+            AlertDialog.Builder notify = new AlertDialog.Builder(this);
+            notify.setTitle("Message Deleted")
+                    .setMessage("Selected message has been deleted.")
+                    .setPositiveButton("Okay", (DialogInterface dialog, int which) ->  {
+                        dialog.cancel();
+                    })
+                    .show();
+        }
     }
 
     @Override
@@ -111,6 +164,7 @@ public class ChatWindow extends Activity {
 
         @Override
         public long getItemId(int position) {
+
             return position;
         }
     }
