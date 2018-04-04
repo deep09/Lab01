@@ -14,6 +14,7 @@ public class StartActivity extends Activity {
     private Button btnImButton;
     private Button btnStartChat;
     private Button btnweatherForecast;
+    private Button btnToolbarActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +24,7 @@ public class StartActivity extends Activity {
         btnImButton = findViewById(R.id.btn_ImButton);
         btnStartChat = findViewById(R.id.btn_startChat);
         btnweatherForecast = findViewById(R.id.btn_weatherForecast);
+        btnToolbarActivity = findViewById(R.id.btnToolbar);
 
         btnImButton.setOnClickListener((view) -> {
             startActivityForResult(new Intent(StartActivity.this, ListItemsActivity.class),50);
@@ -35,6 +37,10 @@ public class StartActivity extends Activity {
 
         btnweatherForecast.setOnClickListener(view -> {
             startActivity(new Intent(getApplicationContext(),WeatherForecast.class));
+        });
+
+        btnToolbarActivity.setOnClickListener( view -> {
+            startActivity(new Intent(getApplicationContext(),TestToolbar.class));
         });
     }
 

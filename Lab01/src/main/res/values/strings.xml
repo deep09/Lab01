@@ -17,4 +17,11 @@
     <string name="fragDeleteBtn">Delete This Message</string>
     <string name="fragTvMessageHint">Selected Message</string>
     <string name="fragTvMessageId">Selected Id</string>
+    <string name="title_activity_test_toolbar">TestToolbar</string>
+    <string name="selectYourChoice">Do you want to go back?</string>
+    <string name="ok">Yes</string>
+    <string name="cancel">No</string>
+    <string name="msgNotificationHint">Enter new message</string>
+    <string name="btnToolbar">ToolBar Activity</string>
+    <string name="notifyMsg">Notify User</string>
 </resources>
