@@ -109,11 +109,13 @@ public class ChatWindow extends Activity {
 
         if(resultCode == 101){
             //lsChatView.setAdapter(null);
-            messageAdapter.notifyDataSetChanged();
             myDB.delete(ChatDatabaseHelper.TABLE_NAME,ChatDatabaseHelper.KEY_ID + " = ?",new String[]{String.valueOf(data.getIntExtra("DeleteThisID",0))});
 
-//            getAllMessagesFromDB();
-//            lsChatView.setAdapter(messageAdapter);
+
+            lsChatView.setAdapter(null);
+            getAllMessagesFromDB();
+            lsChatView.setAdapter(messageAdapter);
+            messageAdapter.notifyDataSetChanged();
 
             AlertDialog.Builder notify = new AlertDialog.Builder(this);
             notify.setTitle("Message Deleted")
