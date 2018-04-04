@@ -36,6 +36,7 @@ public class ChatWindow extends Activity {
     private ContentValues cv;
     private Cursor myCursor;
     private Bundle transferThisInfo;
+    private ChatAdapter messageAdapter;
     private boolean EXISTANCE;
     private final static String ACTIVITY_NAME = "ChatWindow";
 
@@ -55,11 +56,17 @@ public class ChatWindow extends Activity {
         myHelper = new ChatDatabaseHelper(this);
         myDB = myHelper.getWritableDatabase();
 
+        getAllMessagesFromDB();
+
         transferThisInfo = new Bundle();
-        lsChatView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        lsChatView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                myCursor = myDB.rawQuery("SELECT * FROM "+ChatDatabaseHelper.TABLE_NAME+" WHERE "+ChatDatabaseHelper.KEY_ID+" = "+(int)id+" ;",null);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.i("CLICKED", "Menu Item Clicked : "+position+ " ID : "+id);
+                myCursor = myDB.rawQuery("SELECT * FROM "+ChatDatabaseHelper.TABLE_NAME+" ;",null);
+                Log.i("After Query Executed","Select query executed");
+                myCursor.moveToPosition(position);
+                Log.i("Cursor Index","Cursor at "+myCursor.getPosition()+" and MSG "+myCursor.getString(myCursor.getColumnIndex(ChatDatabaseHelper.KEY_MESSAGE)));
                 String msgFromDb = myCursor.getString(myCursor.getColumnIndex(ChatDatabaseHelper.KEY_MESSAGE));
                 int idFromDb = myCursor.getInt(myCursor.getColumnIndex(ChatDatabaseHelper.KEY_ID));
                 transferThisInfo.putString("Message",msgFromDb);
@@ -78,7 +85,6 @@ public class ChatWindow extends Activity {
                     newScreen.putExtras(transferThisInfo);
                     startActivityForResult(newScreen,100);
                 }
-                return true;
             }
         });
 
@@ -91,7 +97,7 @@ public class ChatWindow extends Activity {
             Log.i("Data Inserted",messageFromEdt+" has been added to the database");
         });
 
-        ChatAdapter messageAdapter = new ChatAdapter(this);
+        messageAdapter = new ChatAdapter(this);
         lsChatView.setAdapter(messageAdapter);
         messageAdapter.notifyDataSetChanged();
 
@@ -100,9 +106,15 @@ public class ChatWindow extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        String DELETE_SQL = "DELETE FROM "+ChatDatabaseHelper.TABLE_NAME+" WHERE "+ChatDatabaseHelper.KEY_ID+" = "+data.getIntExtra("DeleteThisID",0)+" ;";
+
         if(resultCode == 101){
-            myDB.rawQuery(DELETE_SQL,null);
+            //lsChatView.setAdapter(null);
+            messageAdapter.notifyDataSetChanged();
+            myDB.delete(ChatDatabaseHelper.TABLE_NAME,ChatDatabaseHelper.KEY_ID + " = ?",new String[]{String.valueOf(data.getIntExtra("DeleteThisID",0))});
+
+//            getAllMessagesFromDB();
+//            lsChatView.setAdapter(messageAdapter);
+
             AlertDialog.Builder notify = new AlertDialog.Builder(this);
             notify.setTitle("Message Deleted")
                     .setMessage("Selected message has been deleted.")
@@ -116,6 +128,17 @@ public class ChatWindow extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
+       //getAllMessagesFromDB();
+     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        myDB.close();
+
+    }
+
+    private void getAllMessagesFromDB(){
         myCursor = myDB.rawQuery("SELECT * FROM "+ChatDatabaseHelper.TABLE_NAME+" ;",null);
         Log.i(ACTIVITY_NAME,"Cursor's column count: "+ myCursor.getColumnCount()+" Total Row Count: "+myCursor.getCount());
         myCursor.moveToFirst();
@@ -125,13 +148,6 @@ public class ChatWindow extends Activity {
             Log.i(ACTIVITY_NAME, "SQL MESSAGE: "+ myCursor.getString(myCursor.getColumnIndex(ChatDatabaseHelper.KEY_MESSAGE)));
             myCursor.moveToNext();
         }
-     }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        myDB.close();
-
     }
 
     private class ChatAdapter extends ArrayAdapter<String> {
@@ -159,6 +175,7 @@ public class ChatWindow extends Activity {
 
             TextView message = result.findViewById(R.id.message_text);
             message.setText(getItem(position));
+            message.setClickable(false);
             return result;
         }
 

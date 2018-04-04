@@ -12,23 +12,18 @@ public class MessageDetails extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_layout);//the screen will be pink
+        setContentView(R.layout.activity_message_details);
 
         deleteBtn = findViewById(R.id.btn_deleteMsg);
         Bundle transferThisInfo = getIntent().getExtras();
 
-        //tablet click handler code:
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         FragmentClass df  =  new FragmentClass();
         df.setArguments( transferThisInfo );
         ft.addToBackStack("Any name, not used"); //only undo FT on back button
-        ft.replace(  R.id.fr_layout , df);
+        ft.replace(  R.id.inside_FrameLayout , df);
         ft.commit();
 
-        deleteBtn.setOnClickListener((view) -> {
-            setResult(101,getIntent().putExtra("DeleteThisID",transferThisInfo.getInt("Id")));
-            finish();
-        });
     }
 }
