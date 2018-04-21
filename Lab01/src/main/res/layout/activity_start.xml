@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.dipen.androidlabs.StartActivity">
 
     <TextView
@@ -15,11 +16,30 @@
         tools:layout_editor_absoluteY="16dp" />
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
+        android:id="@+id/btn_ImButton"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/ButtonText"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="42dp" />
 
-</android.support.constraint.ConstraintLayout>
+    <Button
+        android:id="@+id/btn_startChat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/startChatButton" />
+
+    <Button
+        android:id="@+id/btn_weatherForecast"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btnWeatherForecast" />
+
+    <Button
+        android:id="@+id/btnToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btnToolbar" />
+
+
+</LinearLayout>
